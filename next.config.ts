@@ -1,13 +1,13 @@
 import type { NextConfig } from 'next'
 
-const isProd = process.env.NODE_ENV === 'production'
+const repoName = '/works'
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'export',
+  output: 'export', // static export
   images: { unoptimized: true },
-  assetPrefix: isProd ? '/works/' : '',
-  basePath: isProd ? '/works' : '',
+  assetPrefix: repoName,
+  basePath: repoName,
 }
 
 export default nextConfig

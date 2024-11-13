@@ -10,7 +10,7 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   return (
-    <div className="flex h-10 items-center justify-center shadow">
+    <div className="dark: flex h-10 items-center justify-center shadow shadow-slate-500/60 dark:bg-slate-900">
       <div className="container flex h-10 items-center justify-between">
         <div className="">
           <Button

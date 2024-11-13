@@ -5,7 +5,11 @@ export const metadata: Metadata = {
   description: 'MagneticCards demo',
 }
 const MagneticCards = () => {
-  return <div>MagneticCards</div>
+  return (
+    <div className="flex justify-center">
+      <div className="container p-4">MagneticCards</div>
+    </div>
+  )
 }
 
 export default MagneticCards

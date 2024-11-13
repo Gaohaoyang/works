@@ -35,7 +35,13 @@ const Navbar = () => {
           <Button
             isIconOnly
             variant="light"
-            onClick={() => router.push('https://github.com/Gaohaoyang/works')}
+            onClick={() =>
+              window.open(
+                'https://github.com/Gaohaoyang/works',
+                '_blank',
+                'noopener,noreferrer',
+              )
+            }
           >
             <FaGithub className="text-lg" />
             <span className="sr-only">Github</span>

@@ -100,7 +100,7 @@ const CopySeriousBusiness = () => {
             variants={circleAnimation}
             initial="initial"
             animate={controlsCircle}
-            className="relative h-[1em] w-[1em]"
+            className="relative h-[1em] w-[1em] mx-5"
           >
             <div className="absolute left-0 top-0 h-full w-full rounded-full bg-black"></div>
             <img

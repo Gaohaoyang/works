@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { motion, useAnimation } from 'motion/react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Text3D, OrthographicCamera } from '@react-three/drei'
@@ -343,7 +343,7 @@ const CopySeriousBusiness = () => {
 
           {/* cone */}
           <mesh
-            position={[-2, 0.2, 0.5]}
+            position={[-2, 0.1, 0.5]}
             rotation={[-0.2, 0, 0]}
             castShadow
             receiveShadow
@@ -360,7 +360,7 @@ const CopySeriousBusiness = () => {
             castShadow
             receiveShadow
           >
-            Haoyang's Demo
+            {"Haoyang's Demo"}
             <meshStandardMaterial color="#e0e0e0" />
           </Text3D>
 

@@ -12,6 +12,7 @@ const delayFunction = (delay: number) => {
 const CopySeriousBusiness = () => {
   const controlsTitleLeft = useAnimation()
   const controlsTitleRight = useAnimation()
+  const controlsCircle = useAnimation()
 
   const titleContainerAnimationLeft = {
     hidden: { opacity: 0 },
@@ -46,17 +47,32 @@ const CopySeriousBusiness = () => {
     },
   }
 
-  const circleAnimation = {}
+  const circleAnimation = {
+    initial: {
+      x: '-80vw',
+      rotate: -360 * 2.4,
+    },
+    animate: {
+      x: 0,
+      rotate: 0,
+      transition: {
+        type: 'spring',
+        duration: 3.6,
+        bounce: 0.5,
+      },
+    },
+  }
 
   useEffect(() => {
     const animateTitle = async () => {
-      // 在这里手动触发动画
+      controlsCircle.start('animate')
+      await delayFunction(400)
       controlsTitleLeft.start('show')
-      await delayFunction(1000)
+      await delayFunction(700)
       controlsTitleRight.start('show')
     }
     animateTitle()
-  }, [])
+  }, [controlsCircle, controlsTitleLeft, controlsTitleRight])
 
   return (
     <div className="h-screen w-screen overflow-hidden">
@@ -83,13 +99,18 @@ const CopySeriousBusiness = () => {
           {/* <div className="relative mx-[clamp(0.5rem,1.5vw,20rem)]">
             <div className="absolute -left-[clamp(0.1rem,0.75vw,20rem)] bottom-[clamp(0.5rem,1.5vw,20rem)] h-[clamp(0.5rem,2vw,20rem)] w-[clamp(0.1rem,2vw,20rem)] rounded-full bg-black"></div>
           </div> */}
-          <div className="relative h-[1em] w-[1em]">
+          <motion.div
+            variants={circleAnimation}
+            initial="initial"
+            animate={controlsCircle}
+            className="relative h-[1em] w-[1em]"
+          >
             <div className="absolute left-0 top-0 h-full w-full rounded-full bg-black"></div>
             <img
               src="https://cdn.jsdelivr.net/gh/Gaohaoyang/pics/animation/face.png"
               className="absolute left-0 top-0 h-full w-full"
             />
-          </div>
+          </motion.div>
           {/* circle end */}
           <motion.div
             className="flex flex-1 justify-around"

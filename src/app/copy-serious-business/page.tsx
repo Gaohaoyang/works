@@ -66,7 +66,7 @@ const CopySeriousBusiness = () => {
   useEffect(() => {
     const animateTitle = async () => {
       controlsCircle.start('animate')
-      await delayFunction(400)
+      await delayFunction(300)
       controlsTitleLeft.start('show')
       await delayFunction(700)
       controlsTitleRight.start('show')

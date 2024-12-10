@@ -13,6 +13,7 @@
     "@nextui-org/button": "^2.0.38",
     "@nextui-org/react": "^2.4.8",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "9.0.0-alpha.8",
     "@types/three": "^0.170.0",
     "class-variance-authority": "^0.7.0",

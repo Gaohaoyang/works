@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, useAnimation } from 'motion/react'
 import { Canvas, useFrame } from '@react-three/fiber'
+import { Text3D } from '@react-three/drei'
 import { DirectionalLight } from 'three'
 
 const title = ['PREMIUM', 'CONTENT']
@@ -272,22 +273,44 @@ const CopySeriousBusiness = () => {
       <div className="absolute left-0 top-0 h-full w-full">
         <Canvas shadows>
           {/* box */}
-          <mesh rotation={[1, 1, 1]} position={[0, 0, 0.5]} castShadow>
+          <mesh
+            rotation={[1, 1, 1]}
+            position={[0, 0, 0.5]}
+            castShadow
+            receiveShadow
+          >
             <boxGeometry args={[1, 1, 1]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
 
           {/* sphere */}
-          <mesh position={[2, 0, 0.5]} castShadow>
+          <mesh position={[2, 0, 0.5]} castShadow receiveShadow>
             <sphereGeometry args={[0.5, 32, 32]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
 
           {/* cone */}
-          <mesh position={[-2, 0.2, 0.5]} rotation={[-0.2, 0, 0]} castShadow>
+          <mesh
+            position={[-2, 0.2, 0.5]}
+            rotation={[-0.2, 0, 0]}
+            castShadow
+            receiveShadow
+          >
             <coneGeometry args={[0.5, 1, 32]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
+
+          {/* 3D text */}
+          <Text3D
+            font="https://gaohaoyang.github.io/threeJourney/assets/fonts/Fira%20Code%20Medium_Regular.json"
+            position={[-3, -1.6, 0]}
+            scale={0.5}
+            castShadow
+            receiveShadow
+          >
+            Haoyang's Demo
+            <meshStandardMaterial color="#fff" />
+          </Text3D>
 
           {/* plane */}
           <mesh rotation={[0, 0, 0]} position={[0, 0, 0]} receiveShadow>

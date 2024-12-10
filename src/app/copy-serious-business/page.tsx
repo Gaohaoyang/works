@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import { motion, useAnimation } from 'motion/react'
 
-const title = ['SERIOUS', 'BUSINESS']
+const title = ['PREMIUM', 'CONTENT']
 
 const delayFunction = (delay: number) => {
   return new Promise((resolve) => setTimeout(resolve, delay))
@@ -15,6 +15,7 @@ const CopySeriousBusiness = () => {
   const controlsCircle = useAnimation()
   const controlsTitleContainer = useAnimation()
   const controlsCircleImage = useAnimation()
+  const controlsSubtitle = useAnimation()
 
   const titleContainerAnimationLeft = {
     hidden: { opacity: 0 },
@@ -112,6 +113,19 @@ const CopySeriousBusiness = () => {
     },
   }
 
+  const subtitleAnimation = {
+    hidden: { opacity: 0, y: '100%' },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: 'spring',
+        bounce: 0.2,
+        duration: 0.5,
+      },
+    },
+  }
+
   useEffect(() => {
     const animateTitle = async () => {
       controlsCircle.start('animate')
@@ -125,6 +139,8 @@ const CopySeriousBusiness = () => {
       controlsCircleImage.start('opacity')
       controlsTitleLeft.start('toTop')
       controlsTitleRight.start('toTop')
+      await delayFunction(600)
+      controlsSubtitle.start('show')
     }
     animateTitle()
   }, [controlsCircle, controlsTitleLeft, controlsTitleRight])
@@ -136,7 +152,7 @@ const CopySeriousBusiness = () => {
         variants={titleContainerAnimation}
         initial="initial"
         animate={controlsTitleContainer}
-        className="flex w-full items-center justify-center text-[clamp(2rem,8.8vw,20rem)]"
+        className="flex w-full items-center justify-center text-[clamp(2rem,8.8vw,20rem)] drop-shadow-lg"
       >
         <motion.div className="flex w-full justify-around overflow-hidden font-bold leading-none">
           <motion.div
@@ -189,6 +205,21 @@ const CopySeriousBusiness = () => {
         </motion.div>
       </motion.div>
       {/* title area end */}
+      {/* subtitle area start */}
+      <motion.div
+        variants={subtitleAnimation}
+        initial="hidden"
+        animate={controlsSubtitle}
+        className="mt-2 text-center drop-shadow"
+      >
+        <div className="text-3xl font-bold">
+          Subtitle lorem ipsum dolor sit amet
+        </div>
+        <div className="text-lg">
+          lorem ipsum dolor sit amet consectetur adipiscing elit
+        </div>
+      </motion.div>
+      {/* subtitle area end */}
     </div>
   )
 }

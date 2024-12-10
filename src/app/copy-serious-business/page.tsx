@@ -1,13 +1,53 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { motion, useAnimation } from 'motion/react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { DirectionalLight } from 'three'
 
 const title = ['PREMIUM', 'CONTENT']
 
 const delayFunction = (delay: number) => {
   return new Promise((resolve) => setTimeout(resolve, delay))
+}
+
+// 创建一个新组件来处理光源
+const DirectionalLightWithMouse = () => {
+  const light = useRef<DirectionalLight>(null)
+  const mouse = useRef({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1
+      mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
+  useFrame(() => {
+    if (light.current) {
+      // 使用lerp实现平滑过渡
+      light.current.position.x +=
+        (mouse.current.x * 10 - light.current.position.x) * 0.1
+      light.current.position.y +=
+        (mouse.current.y * 10 - light.current.position.y) * 0.1
+    }
+  })
+
+  return (
+    <directionalLight
+      ref={light}
+      position={[0, 0, 5]}
+      castShadow
+      intensity={5}
+      shadow-mapSize-width={1024}
+      shadow-mapSize-height={1024}
+      shadow-camera-near={0.1}
+      shadow-camera-far={1000}
+    />
+  )
 }
 
 const CopySeriousBusiness = () => {
@@ -231,7 +271,7 @@ const CopySeriousBusiness = () => {
 
       <div className="absolute left-0 top-0 h-full w-full">
         <Canvas shadows>
-          <mesh rotation={[1, 1, 1]} position={[0, 0, 1]} castShadow>
+          <mesh rotation={[1, 1, 1]} position={[0, 0, 0.5]} castShadow>
             <boxGeometry args={[1, 1, 1]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
@@ -242,22 +282,8 @@ const CopySeriousBusiness = () => {
             <meshStandardMaterial color="#fff" />
           </mesh>
 
-          {/* 添加坐标轴辅助器 */}
-          {/* x轴-红色, y轴-绿色, z轴-蓝色 */}
-          {/* <group position={[2, -2, 0]} scale={0.4}>
-            <axesHelper args={[5]} />
-          </group> */}
-
           <ambientLight intensity={2} />
-          <directionalLight
-            position={[0, 10, 5]}
-            castShadow
-            intensity={5}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-            shadow-camera-near={0.1}
-            shadow-camera-far={1000}
-          />
+          <DirectionalLightWithMouse />
         </Canvas>
       </div>
     </div>

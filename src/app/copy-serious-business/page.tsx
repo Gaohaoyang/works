@@ -271,8 +271,21 @@ const CopySeriousBusiness = () => {
 
       <div className="absolute left-0 top-0 h-full w-full">
         <Canvas shadows>
+          {/* box */}
           <mesh rotation={[1, 1, 1]} position={[0, 0, 0.5]} castShadow>
             <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color="#fff" />
+          </mesh>
+
+          {/* sphere */}
+          <mesh position={[2, 0, 0.5]} castShadow>
+            <sphereGeometry args={[0.5, 32, 32]} />
+            <meshStandardMaterial color="#fff" />
+          </mesh>
+
+          {/* cone */}
+          <mesh position={[-2, 0.2, 0.5]} rotation={[-0.2, 0, 0]} castShadow>
+            <coneGeometry args={[0.5, 1, 32]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
 

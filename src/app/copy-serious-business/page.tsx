@@ -230,13 +230,34 @@ const CopySeriousBusiness = () => {
       {/* subtitle area end */}
 
       <div className="absolute left-0 top-0 h-full w-full">
-        <Canvas>
-          <mesh rotation={[0.5, 0.5, 0]}>
+        <Canvas shadows>
+          <mesh rotation={[1, 1, 1]} position={[0, 0, 1]} castShadow>
             <boxGeometry args={[1, 1, 1]} />
-            <meshPhongMaterial />
+            <meshStandardMaterial color="#fff" />
           </mesh>
-          <ambientLight intensity={0.1} />
-          <directionalLight position={[0, 0, 5]} color="red" />
+
+          {/* plane */}
+          <mesh rotation={[0, 0, 0]} position={[0, 0, 0]} receiveShadow>
+            <planeGeometry args={[1000, 1000]} />
+            <meshStandardMaterial color="#fff" />
+          </mesh>
+
+          {/* 添加坐标轴辅助器 */}
+          {/* x轴-红色, y轴-绿色, z轴-蓝色 */}
+          {/* <group position={[2, -2, 0]} scale={0.4}>
+            <axesHelper args={[5]} />
+          </group> */}
+
+          <ambientLight intensity={2} />
+          <directionalLight
+            position={[0, 10, 5]}
+            castShadow
+            intensity={5}
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-near={0.1}
+            shadow-camera-far={1000}
+          />
         </Canvas>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { LuSun, LuMoon, LuHome } from 'react-icons/lu'
+import { LuSun, LuMoon } from 'react-icons/lu'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/button'
@@ -19,7 +19,7 @@ const Navbar = () => {
               variant="light"
               onClick={() => router.push('/')}
             >
-              <LuHome className="text-lg" />
+              {/* <LuHome className="text-lg" /> */}
               Home
             </Button>
           </div>

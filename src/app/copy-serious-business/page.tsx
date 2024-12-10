@@ -75,6 +75,7 @@ const CopySeriousBusiness = () => {
   const controlsTitleContainer = useAnimation()
   const controlsCircleImage = useAnimation()
   const controlsSubtitle = useAnimation()
+  const controlsCanvas = useAnimation()
 
   const titleContainerAnimationLeft = {
     hidden: { opacity: 0 },
@@ -185,6 +186,18 @@ const CopySeriousBusiness = () => {
     },
   }
 
+  const canvasAnimation = {
+    initial: {
+      opacity: 0,
+    },
+    show: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  }
+
   useEffect(() => {
     const animateTitle = async () => {
       controlsCircle.start('animate')
@@ -200,6 +213,7 @@ const CopySeriousBusiness = () => {
       controlsTitleRight.start('toTop')
       await delayFunction(600)
       controlsSubtitle.start('show')
+      controlsCanvas.start('show')
     }
     animateTitle()
   }, [
@@ -209,6 +223,7 @@ const CopySeriousBusiness = () => {
     controlsSubtitle,
     controlsTitleContainer,
     controlsCircleImage,
+    controlsCanvas,
   ])
 
   return (
@@ -287,7 +302,12 @@ const CopySeriousBusiness = () => {
       </motion.div>
       {/* subtitle area end */}
 
-      <div className="absolute left-0 top-0 h-full w-full">
+      <motion.div
+        variants={canvasAnimation}
+        initial="initial"
+        animate={controlsCanvas}
+        className="absolute left-0 top-0 h-full w-full"
+      >
         <Canvas
           shadows
           gl={{
@@ -353,7 +373,7 @@ const CopySeriousBusiness = () => {
           <ambientLight intensity={2.6} />
           <DirectionalLightWithMouse />
         </Canvas>
-      </div>
+      </motion.div>
     </div>
   )
 }

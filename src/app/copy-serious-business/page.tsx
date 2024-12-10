@@ -143,7 +143,14 @@ const CopySeriousBusiness = () => {
       controlsSubtitle.start('show')
     }
     animateTitle()
-  }, [controlsCircle, controlsTitleLeft, controlsTitleRight])
+  }, [
+    controlsCircle,
+    controlsTitleLeft,
+    controlsTitleRight,
+    controlsSubtitle,
+    controlsTitleContainer,
+    controlsCircleImage,
+  ])
 
   return (
     <div className="h-screen w-screen overflow-hidden p-2">

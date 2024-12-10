@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 const MagneticCards = () => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <div className="h-10"></div>
       <div className="overflow-x-auto">
         <div className="flex flex-col gap-4">
-          {cardsData.map((row) => (
-            <div className="flex gap-4">
+          {cardsData.map((row, index) => (
+            <div className="flex gap-4" key={index}>
               {row.map((card) => (
                 <div
                   key={card.id}

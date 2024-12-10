@@ -13,6 +13,8 @@ const CopySeriousBusiness = () => {
   const controlsTitleLeft = useAnimation()
   const controlsTitleRight = useAnimation()
   const controlsCircle = useAnimation()
+  const controlsTitleContainer = useAnimation()
+  const controlsCircleImage = useAnimation()
 
   const titleContainerAnimationLeft = {
     hidden: { opacity: 0 },
@@ -20,6 +22,14 @@ const CopySeriousBusiness = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
+      },
+    },
+    toTop: {
+      scale: 1.09,
+      x: '2.2vw',
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.5,
       },
     },
   }
@@ -31,6 +41,14 @@ const CopySeriousBusiness = () => {
       transition: {
         staggerChildren: 0.1,
         staggerDirection: -1,
+      },
+    },
+    toTop: {
+      scale: 1.09,
+      x: '-2.2vw',
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.5,
       },
     },
   }
@@ -61,6 +79,37 @@ const CopySeriousBusiness = () => {
         bounce: 0.5,
       },
     },
+    toTop: {
+      scale: 0.2,
+      y: '2.5vw',
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.5,
+      },
+    },
+  }
+
+  const circleImageAnimation = {
+    opacity: {
+      opacity: 0,
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.5,
+      },
+    },
+  }
+
+  const titleContainerAnimation = {
+    initial: {
+      y: 'calc(50vh - 50%)',
+    },
+    toTop: {
+      y: 0,
+      transition: {
+        ease: 'easeInOut',
+        duration: 0.5,
+      },
+    },
   }
 
   useEffect(() => {
@@ -70,14 +119,25 @@ const CopySeriousBusiness = () => {
       controlsTitleLeft.start('show')
       await delayFunction(700)
       controlsTitleRight.start('show')
+      await delayFunction(1200)
+      controlsTitleContainer.start('toTop')
+      controlsCircle.start('toTop')
+      controlsCircleImage.start('opacity')
+      controlsTitleLeft.start('toTop')
+      controlsTitleRight.start('toTop')
     }
     animateTitle()
   }, [controlsCircle, controlsTitleLeft, controlsTitleRight])
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <div className="h-screen w-screen overflow-hidden p-2">
       {/* title area start */}
-      <div className="mt-[50vh] flex w-full translate-y-[-50%] items-center justify-center text-[clamp(2rem,9vw,20rem)]">
+      <motion.div
+        variants={titleContainerAnimation}
+        initial="initial"
+        animate={controlsTitleContainer}
+        className="flex w-full items-center justify-center text-[clamp(2rem,8.8vw,20rem)]"
+      >
         <motion.div className="flex w-full justify-around overflow-hidden font-bold leading-none">
           <motion.div
             className="flex flex-1 justify-around"
@@ -100,10 +160,11 @@ const CopySeriousBusiness = () => {
             variants={circleAnimation}
             initial="initial"
             animate={controlsCircle}
-            className="relative h-[1em] w-[1em] mx-[0.12em]"
+            className="relative mx-[0.1em] h-[1em] w-[1em] rounded-full bg-black"
           >
-            <div className="absolute left-0 top-0 h-full w-full rounded-full bg-black"></div>
-            <img
+            <motion.img
+              variants={circleImageAnimation}
+              animate={controlsCircleImage}
               src="https://cdn.jsdelivr.net/gh/Gaohaoyang/pics2/assets/face.png"
               className="absolute left-0 top-0 h-full w-full"
             />
@@ -126,7 +187,7 @@ const CopySeriousBusiness = () => {
             ))}
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
       {/* title area end */}
     </div>
   )

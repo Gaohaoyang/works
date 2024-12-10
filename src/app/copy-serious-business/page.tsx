@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, useAnimation } from 'motion/react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Text3D } from '@react-three/drei'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Text3D, OrthographicCamera } from '@react-three/drei'
 import { DirectionalLight } from 'three'
 
 const title = ['PREMIUM', 'CONTENT']
@@ -42,13 +42,30 @@ const DirectionalLightWithMouse = () => {
       ref={light}
       position={[0, 0, 5]}
       castShadow
-      intensity={5}
+      intensity={10}
       shadow-mapSize-width={1024}
       shadow-mapSize-height={1024}
       shadow-camera-near={0.1}
       shadow-camera-far={1000}
     />
   )
+}
+
+// 创建一个相机控制组件
+const CameraController = () => {
+  const { viewport, camera } = useThree()
+
+  useEffect(() => {
+    // 根据视口宽度调整相机
+    const aspect = viewport.width / viewport.height
+    const zoom = Math.min(1, aspect) * 160 // 调整缩放系数
+
+    // 更新相机位置和缩放
+    camera.zoom = zoom
+    camera.updateProjectionMatrix()
+  }, [viewport, camera])
+
+  return null
 }
 
 const CopySeriousBusiness = () => {
@@ -271,7 +288,22 @@ const CopySeriousBusiness = () => {
       {/* subtitle area end */}
 
       <div className="absolute left-0 top-0 h-full w-full">
-        <Canvas shadows>
+        <Canvas
+          shadows
+          gl={{
+            antialias: true,
+          }}
+          camera={{
+            position: [0, 0, 10],
+            near: 0.1,
+            far: 1000,
+            zoom: 3,
+          }}
+          className="h-full w-full"
+        >
+          <OrthographicCamera makeDefault position={[0, 0, 10]} zoom={3} />
+          <CameraController />
+
           {/* box */}
           <mesh
             rotation={[1, 1, 1]}
@@ -280,13 +312,13 @@ const CopySeriousBusiness = () => {
             receiveShadow
           >
             <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color="#fff" />
+            <meshStandardMaterial color="#e0e0e0" />
           </mesh>
 
           {/* sphere */}
           <mesh position={[2, 0, 0.5]} castShadow receiveShadow>
             <sphereGeometry args={[0.5, 32, 32]} />
-            <meshStandardMaterial color="#fff" />
+            <meshStandardMaterial color="#e0e0e0" />
           </mesh>
 
           {/* cone */}
@@ -297,28 +329,28 @@ const CopySeriousBusiness = () => {
             receiveShadow
           >
             <coneGeometry args={[0.5, 1, 32]} />
-            <meshStandardMaterial color="#fff" />
+            <meshStandardMaterial color="#e0e0e0" />
           </mesh>
 
           {/* 3D text */}
           <Text3D
             font="https://gaohaoyang.github.io/threeJourney/assets/fonts/Fira%20Code%20Medium_Regular.json"
-            position={[-3, -1.6, 0]}
-            scale={0.5}
+            position={[-2, -1.2, 0]}
+            scale={0.3}
             castShadow
             receiveShadow
           >
             Haoyang's Demo
-            <meshStandardMaterial color="#fff" />
+            <meshStandardMaterial color="#e0e0e0" />
           </Text3D>
 
           {/* plane */}
           <mesh rotation={[0, 0, 0]} position={[0, 0, 0]} receiveShadow>
-            <planeGeometry args={[1000, 1000]} />
+            <planeGeometry args={[100, 100]} />
             <meshStandardMaterial color="#fff" />
           </mesh>
 
-          <ambientLight intensity={2} />
+          <ambientLight intensity={2.6} />
           <DirectionalLightWithMouse />
         </Canvas>
       </div>

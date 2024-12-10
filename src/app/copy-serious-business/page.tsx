@@ -96,9 +96,6 @@ const CopySeriousBusiness = () => {
             ))}
           </motion.div>
           {/* circle start */}
-          {/* <div className="relative mx-[clamp(0.5rem,1.5vw,20rem)]">
-            <div className="absolute -left-[clamp(0.1rem,0.75vw,20rem)] bottom-[clamp(0.5rem,1.5vw,20rem)] h-[clamp(0.5rem,2vw,20rem)] w-[clamp(0.1rem,2vw,20rem)] rounded-full bg-black"></div>
-          </div> */}
           <motion.div
             variants={circleAnimation}
             initial="initial"

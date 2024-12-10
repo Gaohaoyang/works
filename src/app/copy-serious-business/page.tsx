@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react'
 import { motion, useAnimation } from 'motion/react'
+import { Canvas } from '@react-three/fiber'
 
 const title = ['PREMIUM', 'CONTENT']
 
@@ -133,7 +134,7 @@ const CopySeriousBusiness = () => {
       controlsTitleLeft.start('show')
       await delayFunction(700)
       controlsTitleRight.start('show')
-      await delayFunction(1200)
+      await delayFunction(1400)
       controlsTitleContainer.start('toTop')
       controlsCircle.start('toTop')
       controlsCircleImage.start('opacity')
@@ -159,7 +160,7 @@ const CopySeriousBusiness = () => {
         variants={titleContainerAnimation}
         initial="initial"
         animate={controlsTitleContainer}
-        className="flex w-full items-center justify-center text-[clamp(2rem,8.8vw,20rem)] drop-shadow-lg"
+        className="relative z-10 flex w-full items-center justify-center text-[clamp(2rem,8.8vw,20rem)] drop-shadow-lg"
       >
         <motion.div className="flex w-full justify-around overflow-hidden font-bold leading-none">
           <motion.div
@@ -217,7 +218,7 @@ const CopySeriousBusiness = () => {
         variants={subtitleAnimation}
         initial="hidden"
         animate={controlsSubtitle}
-        className="mt-2 text-center drop-shadow"
+        className="relative z-10 mt-2 text-center drop-shadow"
       >
         <div className="text-3xl font-bold">
           Subtitle lorem ipsum dolor sit amet
@@ -227,6 +228,17 @@ const CopySeriousBusiness = () => {
         </div>
       </motion.div>
       {/* subtitle area end */}
+
+      <div className="absolute left-0 top-0 h-full w-full">
+        <Canvas>
+          <mesh rotation={[0.5, 0.5, 0]}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshPhongMaterial />
+          </mesh>
+          <ambientLight intensity={0.1} />
+          <directionalLight position={[0, 0, 5]} color="red" />
+        </Canvas>
+      </div>
     </div>
   )
 }

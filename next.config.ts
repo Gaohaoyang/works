@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   assetPrefix: isProd ? '/works/' : '',
   basePath: isProd ? '/works' : '',
+  transpilePackages: ['three'],
 }
 
 export default nextConfig

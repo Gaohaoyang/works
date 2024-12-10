@@ -50,7 +50,7 @@ const CopySeriousBusiness = () => {
   const circleAnimation = {
     initial: {
       x: '-80vw',
-      rotate: -360 * 2.4,
+      rotate: -360 * 3,
     },
     animate: {
       x: 0,
@@ -107,7 +107,7 @@ const CopySeriousBusiness = () => {
           >
             <div className="absolute left-0 top-0 h-full w-full rounded-full bg-black"></div>
             <img
-              src="https://cdn.jsdelivr.net/gh/Gaohaoyang/pics/animation/face.png"
+              src="https://cdn.jsdelivr.net/gh/Gaohaoyang/pics2/assets/face.png"
               className="absolute left-0 top-0 h-full w-full"
             />
           </motion.div>

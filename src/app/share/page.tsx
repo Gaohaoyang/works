@@ -16,10 +16,11 @@ const Share = () => {
               title: 'title',
               desc: 'desc',
               link: 'https://gaohaoyang.github.io/works/copy-serious-business',
-              imgUrl: 'https://cdn.jsdelivr.net/gh/Gaohaoyang/pics2/assets/face.png',
+              imgUrl:
+                'https://cdn.jsdelivr.net/gh/Gaohaoyang/pics2/assets/face.png',
               notShortUrl: 'true',
             },
-          };
+          }
           console.log(params)
           console.log(JSON.stringify(params))
         }}

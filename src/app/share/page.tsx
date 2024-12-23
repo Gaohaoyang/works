@@ -23,7 +23,7 @@ const Share = () => {
           }
           console.log(params)
           console.log(JSON.stringify(params))
-          // @ts-ignore
+          // @ts-expect-error test
           window.ReactNativeWebView?.postMessage(JSON.stringify(params))
         }}
       >

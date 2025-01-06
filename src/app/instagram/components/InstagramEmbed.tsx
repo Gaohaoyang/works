@@ -22,7 +22,7 @@ export function InstagramEmbed({ url, captioned = true }: InstagramEmbedProps) {
 
   useEffect(() => {
     const existingScript = document.querySelector(
-      'script[src="https://www.instagram.com/embed.js"]'
+      'script[src="https://www.instagram.com/embed.js"]',
     )
     let script: HTMLScriptElement
 

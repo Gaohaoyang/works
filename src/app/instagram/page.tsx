@@ -5,7 +5,7 @@ export default function InstagramPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="mb-6 text-2xl font-bold">Instagram 展示墙</h1>
-      <div className="gap-6 columns-1 md:columns-2 lg:columns-3">
+      <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
         {data.map((item, index) => (
           <div
             key={index}

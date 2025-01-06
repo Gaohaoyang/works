@@ -1,45 +1,44 @@
-'use client';
+'use client'
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
 declare global {
   interface Window {
     instgrm?: {
       Embeds: {
-        process(): void;
-      };
-    };
+        process(): void
+      }
+    }
   }
 }
 
 interface InstagramEmbedProps {
-  url: string;
-  captioned?: boolean;
+  url: string
+  captioned?: boolean
 }
 
-export function InstagramEmbed({
-  url,
-  captioned = true
-}: InstagramEmbedProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+export function InstagramEmbed({ url, captioned = true }: InstagramEmbedProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://www.instagram.com/embed.js"]');
-    let script: HTMLScriptElement;
+    const existingScript = document.querySelector(
+      'script[src="https://www.instagram.com/embed.js"]'
+    )
+    let script: HTMLScriptElement
 
     if (!existingScript) {
-      script = document.createElement('script');
-      script.src = 'https://www.instagram.com/embed.js';
-      script.async = true;
-      document.body.appendChild(script);
+      script = document.createElement('script')
+      script.src = 'https://www.instagram.com/embed.js'
+      script.async = true
+      document.body.appendChild(script)
     } else {
-      script = existingScript as HTMLScriptElement;
+      script = existingScript as HTMLScriptElement
       if (window.instgrm) {
-        window.instgrm.Embeds.process();
+        window.instgrm.Embeds.process()
       }
     }
 
-    const container = containerRef.current;
+    const container = containerRef.current
     if (container) {
       container.innerHTML = `<blockquote
         class="instagram-media"
@@ -57,19 +56,19 @@ export function InstagramEmbed({
           padding:0;
           width:99.375%;
         "
-      ></blockquote>`;
+      ></blockquote>`
     }
 
     return () => {
       if (!existingScript && script.parentNode) {
-        script.parentNode.removeChild(script);
+        script.parentNode.removeChild(script)
       }
-    };
-  }, [url, captioned]);
+    }
+  }, [url, captioned])
 
   return (
     <div className="instagram-post-container">
       <div ref={containerRef} className="instagram-embed-container" />
     </div>
-  );
+  )
 }

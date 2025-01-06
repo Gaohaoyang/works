@@ -1,5 +1,5 @@
-import { InstagramEmbed } from './components/InstagramEmbed';
-import { data } from './data';
+import { InstagramEmbed } from './components/InstagramEmbed'
+import { data } from './data'
 
 export default function InstagramPage() {
   return (
@@ -16,5 +16,5 @@ export default function InstagramPage() {
         ))}
       </div>
     </div>
-  );
+  )
 }

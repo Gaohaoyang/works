@@ -8,7 +8,7 @@ export default function InstagramPage() {
   const [columns, setColumns] = useState(3)
 
   const toggleColumns = () => {
-    setColumns(current => current === 3 ? 4 : 3)
+    setColumns((current) => (current === 3 ? 4 : 3))
   }
 
   const columnClass = columns === 3

@@ -11,9 +11,10 @@ export default function InstagramPage() {
     setColumns((current) => (current === 3 ? 4 : 3))
   }
 
-  const columnClass = columns === 3
-    ? 'columns-1 md:columns-2 lg:columns-3'
-    : 'columns-1 md:columns-2 lg:columns-4'
+  const columnClass =
+    columns === 3
+      ? 'columns-1 md:columns-2 lg:columns-3'
+      : 'columns-1 md:columns-2 lg:columns-4'
 
   return (
     <div className="container mx-auto p-4">

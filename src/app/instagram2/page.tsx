@@ -75,14 +75,14 @@ export default function InstagramPage() {
       <div
         ref={gridRef}
         className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-        style={{ gridAutoRows: '20px' }}
+        style={{ gridAutoRows: '0px' }}
       >
         {data.map((item, index) => (
           <div
             key={index}
-            className="grid-item w-full overflow-hidden rounded-lg bg-white shadow-md"
+            className="grid-item w-full"
           >
-            <div className="content w-full p-2">
+            <div className="content w-full">
               <InstagramEmbed url={item.link} />
             </div>
           </div>

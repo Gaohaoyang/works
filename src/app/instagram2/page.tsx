@@ -17,11 +17,19 @@ export default function InstagramPage() {
 
     const resizeGridItem = (item: HTMLElement) => {
       const grid = gridRef.current
-      const rowHeight = parseInt(window.getComputedStyle(grid!).getPropertyValue('grid-auto-rows'))
-      const rowGap = parseInt(window.getComputedStyle(grid!).getPropertyValue('gap'))
-      const contentHeight = item.querySelector('.content')?.getBoundingClientRect().height
+      const rowHeight = parseInt(
+        window.getComputedStyle(grid!).getPropertyValue('grid-auto-rows'),
+      )
+      const rowGap = parseInt(
+        window.getComputedStyle(grid!).getPropertyValue('gap'),
+      )
+      const contentHeight = item
+        .querySelector('.content')
+        ?.getBoundingClientRect().height
       if (contentHeight) {
-        const rowSpan = Math.ceil((contentHeight + rowGap) / (rowHeight + rowGap))
+        const rowSpan = Math.ceil(
+          (contentHeight + rowGap) / (rowHeight + rowGap),
+        )
         item.style.gridRowEnd = `span ${rowSpan}`
       }
     }
@@ -78,10 +86,7 @@ export default function InstagramPage() {
         style={{ gridAutoRows: '0px' }}
       >
         {data.map((item, index) => (
-          <div
-            key={index}
-            className="grid-item w-full"
-          >
+          <div key={index} className="grid-item w-full">
             <div className="content w-full">
               <InstagramEmbed url={item.link} />
             </div>

@@ -53,10 +53,9 @@ export function InstagramEmbed({
           border:0;
           border-radius:3px;
           box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);
-          max-width:540px;
-          min-width:326px;
+          margin: 0 !important;
           padding:0;
-          width:100%;
+          width:100% !important;
         "
       ></blockquote>`
     }
@@ -69,8 +68,22 @@ export function InstagramEmbed({
   }, [url, captioned])
 
   return (
-    <div className="instagram-post-container">
-      <div ref={containerRef} className="instagram-embed-container" />
+    <div className="instagram-post-container w-full">
+      <div ref={containerRef} className="instagram-embed-container w-full" />
+      <style jsx global>{`
+        .instagram-media {
+          min-width: 0 !important;
+          max-width: none !important;
+          width: 100% !important;
+          margin: 0 !important;
+        }
+        .instagram-media-rendered {
+          min-width: 0 !important;
+          max-width: none !important;
+          width: 100% !important;
+          margin: 0 !important;
+        }
+      `}</style>
     </div>
   )
 }

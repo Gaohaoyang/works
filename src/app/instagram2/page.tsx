@@ -82,7 +82,7 @@ export default function InstagramPage() {
       <h1 className="mb-6 text-2xl font-bold">Instagram 展示墙2</h1>
       <div
         ref={gridRef}
-        className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4"
         style={{ gridAutoRows: '0px' }}
       >
         {data.map((item, index) => (

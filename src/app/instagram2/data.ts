@@ -1,5 +1,11 @@
 export const data = [
   {
+    link: 'https://www.instagram.com/reel/C_0XLz4v6Jm/',
+  },
+  {
+    link: 'https://www.instagram.com/reel/DETWS8aMXS0/',
+  },
+  {
     link: 'https://www.instagram.com/p/C8fDkyFJfFB/',
   },
   {

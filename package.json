@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/button": "2.2.10",
     "@heroui/react": "2.6.14",
     "@radix-ui/react-slot": "^1.1.1",
     "@react-three/drei": "^9.121.4",

@@ -3,7 +3,7 @@ import React from 'react'
 import { LuSun, LuMoon } from 'react-icons/lu'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
-import { Button } from '@nextui-org/button'
+import { Button } from "@heroui/button"
 import { FaGithub } from 'react-icons/fa6'
 
 const Navbar = () => {

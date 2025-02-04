@@ -238,15 +238,15 @@ const EChartsComponent = () => {
               environment: isDark ? '#1a1a1a' : '#fff',
               viewControl: {
                 // Initial rotation for better view
-                beta: 15,
-                alpha: 25,
-                distance: 200,
+                beta: 30,
+                alpha: 18,
+                distance: 100,
                 rotateSensitivity: 1.2,
                 zoomSensitivity: 0.8,
                 panSensitivity: 1.0,
                 damping: 0.8,
-                minDistance: 100,
-                maxDistance: 400,
+                minDistance: 260,
+                maxDistance: 1200,
                 autoRotate: false,
               },
               axisLine: {
@@ -315,6 +315,41 @@ const EChartsComponent = () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [theme])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' && chartInstance.current) {
+        chartInstance.current.setOption({
+          grid3D: {
+            viewControl: {
+              mouseUsage: 'pan',
+            },
+          },
+        })
+        e.preventDefault()
+      }
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space' && chartInstance.current) {
+        chartInstance.current.setOption({
+          grid3D: {
+            viewControl: {
+              mouseUsage: 'rotate',
+            },
+          },
+        })
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [])
 
   // Cleanup on component unmount
   useEffect(() => {

@@ -136,18 +136,35 @@ const EChartsComponent = () => {
                 'Distribution of candidates by CRS score range (From Draw #228)',
             },
             tooltip: {
-              trigger: 'item',
-              position: function (point: number[]) {
-                return [point[0], point[1]]
+              trigger: 'axis',
+              position: 'top',
+              axisPointer: {
+                type: 'line',
+                label: {
+                  show: false
+                }
               },
-              formatter: function (params: {
-                seriesName: string
-                value: number
-                seriesIndex: number
-              }) {
-                if (params.value === 0 || params.value === undefined) return ''
-                return `CRS Score: ${params.seriesName}<br/>Candidates: ${params.value.toLocaleString()}`
-              },
+              formatter: function (params: any[]) {
+                if (!params || params.length === 0) return '';
+
+                let result = `${params[0].axisValue}<br/>`;
+                let total = 0;
+
+                // Process only series with values > 0
+                params.forEach(param => {
+                  if (param.value > 0) {
+                    result += `${param.marker}${param.seriesName}: ${param.value.toLocaleString()}<br/>`;
+                    total += param.value;
+                  }
+                });
+
+                // Add total if there are valid values
+                if (total > 0) {
+                  result += `<br/>Total: ${total.toLocaleString()}`;
+                }
+
+                return result;
+              }
             },
             legend: {
               data: CRS_RANGES.map((range) => range.name).reverse(),

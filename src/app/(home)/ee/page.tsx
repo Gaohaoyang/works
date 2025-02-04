@@ -8,7 +8,7 @@ const EChartsComponent = dynamic(() => import('./EChartsComponent'), {
 
 const EE = () => {
   return (
-    <div className="mx-auto p-4 min-h-screen">
+    <div className="mx-auto min-h-screen p-4">
       <h1 className="mb-4 text-2xl font-bold">Express Entry Draws</h1>
       <div className="h-[calc(100vh-8rem)] w-full">
         <EChartsComponent />

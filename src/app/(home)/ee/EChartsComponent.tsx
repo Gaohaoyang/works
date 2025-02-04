@@ -36,40 +36,21 @@ interface RawEEResponse {
 
 // Define CRS ranges in ascending order (lowest to highest)
 const CRS_RANGES = [
-  { name: '0-300', dataIndex: 16 },
-  { name: '301-350', dataIndex: 15 },
-  { name: '351-400', dataIndex: 14 },
-  { name: '401-410', dataIndex: 13 },
-  { name: '411-420', dataIndex: 12 },
-  { name: '421-430', dataIndex: 11 },
-  { name: '431-440', dataIndex: 10 },
-  { name: '441-450', dataIndex: 9 },
-  { name: '451-460', dataIndex: 7 },
-  { name: '461-470', dataIndex: 6 },
-  { name: '471-480', dataIndex: 5 },
-  { name: '481-490', dataIndex: 4 },
-  { name: '491-500', dataIndex: 3 },
-  { name: '501-600', dataIndex: 1 },
   { name: '601-1200', dataIndex: 0 },
-]
-
-// Color ranges from low to high scores with softer colors
-const COLORS = [
-  '#2c3e50', // Dark blue-gray (lowest)
-  '#34495e',
-  '#2980b9',
-  '#3498db',
-  '#1abc9c',
-  '#16a085',
-  '#27ae60',
-  '#2ecc71',
-  '#f1c40f',
-  '#f39c12',
-  '#e67e22',
-  '#d35400',
-  '#c0392b',
-  '#e74c3c',
-  '#8e44ad', // Purple (highest)
+  { name: '501-600', dataIndex: 1 },
+  { name: '491-500', dataIndex: 3 },
+  { name: '481-490', dataIndex: 4 },
+  { name: '471-480', dataIndex: 5 },
+  { name: '461-470', dataIndex: 6 },
+  { name: '451-460', dataIndex: 7 },
+  { name: '441-450', dataIndex: 9 },
+  { name: '431-440', dataIndex: 10 },
+  { name: '421-430', dataIndex: 11 },
+  { name: '411-420', dataIndex: 12 },
+  { name: '401-410', dataIndex: 13 },
+  { name: '351-400', dataIndex: 14 },
+  { name: '301-350', dataIndex: 15 },
+  { name: '0-300', dataIndex: 16 },
 ]
 
 const EChartsComponent = () => {
@@ -161,6 +142,7 @@ const EChartsComponent = () => {
               type: 'category',
               data: CRS_RANGES.map((range) => range.name),
               name: 'CRS Score Range',
+              inverse: true,
             },
             zAxis3D: {
               type: 'value',
@@ -181,18 +163,18 @@ const EChartsComponent = () => {
                 rotateSensitivity: 1.5,
                 zoomSensitivity: 2,
                 panSensitivity: 1.5,
-                autoRotate: false
+                autoRotate: false,
               },
               light: {
                 main: {
                   intensity: 1.2,
                   shadow: true,
+                  shadowQuality: 'medium',
                 },
                 ambient: {
                   intensity: 0.3,
                 },
               },
-              environment: '#000',
             },
             series: [
               {
@@ -206,6 +188,9 @@ const EChartsComponent = () => {
                   label: {
                     show: false,
                   },
+                },
+                itemStyle: {
+                  opacity: 0.9,
                 },
               },
             ],

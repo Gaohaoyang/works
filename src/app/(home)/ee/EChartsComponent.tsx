@@ -238,15 +238,15 @@ const EChartsComponent = () => {
               environment: isDark ? '#1a1a1a' : '#fff',
               viewControl: {
                 // Initial rotation for better view
-                beta: 30,
-                alpha: 18,
-                distance: 100,
+                beta: 45,
+                alpha: 8,
+                distance: 260,
                 rotateSensitivity: 1.2,
-                zoomSensitivity: 0.8,
+                zoomSensitivity: 0.2,
                 panSensitivity: 1.0,
                 damping: 0.8,
-                minDistance: 260,
-                maxDistance: 1200,
+                minDistance: 0,
+                maxDistance: 1500,
                 autoRotate: false,
               },
               axisLine: {

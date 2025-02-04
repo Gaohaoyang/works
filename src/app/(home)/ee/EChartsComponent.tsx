@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
+import 'echarts-gl'
 
 interface EEData {
   drawNumber: string
@@ -95,191 +96,117 @@ const EChartsComponent = () => {
               new Date(a.drawDate).getTime() - new Date(b.drawDate).getTime(),
           )
 
-        const processedData = filteredAndSortedRounds.map((item) => {
-          const distributions = [
-            parseInt(item.dd1.replace(/,/g, '')),
-            parseInt(item.dd2.replace(/,/g, '')),
-            parseInt(item.dd3.replace(/,/g, '')),
-            parseInt(item.dd4.replace(/,/g, '')),
-            parseInt(item.dd5.replace(/,/g, '')),
-            parseInt(item.dd6.replace(/,/g, '')),
-            parseInt(item.dd7.replace(/,/g, '')),
-            parseInt(item.dd8.replace(/,/g, '')),
-            parseInt(item.dd9.replace(/,/g, '')),
-            parseInt(item.dd10.replace(/,/g, '')),
-            parseInt(item.dd11.replace(/,/g, '')),
-            parseInt(item.dd12.replace(/,/g, '')),
-            parseInt(item.dd13.replace(/,/g, '')),
-            parseInt(item.dd14.replace(/,/g, '')),
-            parseInt(item.dd15.replace(/,/g, '')),
-            parseInt(item.dd16.replace(/,/g, '')),
-            parseInt(item.dd17.replace(/,/g, '')),
-            parseInt(item.dd18.replace(/,/g, '')),
-          ]
-          return {
-            drawNumber: item.drawNumber,
-            drawDate: item.drawDate,
-            drawName: item.drawName,
-            drawSize: parseInt(item.drawSize.replace(/,/g, '')),
-            drawCRS: parseInt(item.drawCRS),
-            distributions,
-          }
+        // Process data for 3D visualization
+        const data: [number, number, number][] = []
+        const dates = filteredAndSortedRounds.map((item) => item.drawDate)
+
+        filteredAndSortedRounds.forEach((round, dateIndex) => {
+          CRS_RANGES.forEach((range, rangeIndex) => {
+            const ddKey = `dd${range.dataIndex + 1}` as keyof EEData
+            const value = parseInt(round[ddKey].replace(/,/g, ''))
+            if (value > 0) {
+              data.push([dateIndex, rangeIndex, value])
+            }
+          })
         })
+
+        const maxValue = Math.max(...data.map((item) => item[2]))
 
         if (chartRef.current) {
           if (!chartInstance.current) {
             chartInstance.current = echarts.init(chartRef.current)
           }
 
+          interface TooltipParams {
+            data: [number, number, number]
+          }
+
           const option = {
-            title: {
-              text: 'Express Entry CRS Score Distribution',
-              subtext: 'Distribution of candidates by CRS score range (From Draw #228)',
-            },
             tooltip: {
-              trigger: 'axis',
-              position: 'top',
-              axisPointer: {
-                type: 'line',
+              formatter: (params: TooltipParams) => {
+                const date = dates[params.data[0]]
+                const range = CRS_RANGES[params.data[1]].name
+                const value = params.data[2]
+                return `Date: ${date}<br/>CRS Range: ${range}<br/>Candidates: ${value.toLocaleString()}`
+              },
+            },
+            visualMap: {
+              max: maxValue,
+              inRange: {
+                color: [
+                  '#313695',
+                  '#4575b4',
+                  '#74add1',
+                  '#abd9e9',
+                  '#e0f3f8',
+                  '#ffffbf',
+                  '#fee090',
+                  '#fdae61',
+                  '#f46d43',
+                  '#d73027',
+                  '#a50026',
+                ],
+              },
+            },
+            xAxis3D: {
+              type: 'category',
+              data: dates,
+              name: 'Date',
+              axisLabel: {
+                rotate: 45,
+                interval: Math.floor(dates.length / 10),
+              },
+            },
+            yAxis3D: {
+              type: 'category',
+              data: CRS_RANGES.map((range) => range.name),
+              name: 'CRS Score Range',
+            },
+            zAxis3D: {
+              type: 'value',
+              name: 'Number of Candidates',
+              axisLabel: {
+                formatter: (value: number) => value.toLocaleString(),
+              },
+            },
+            grid3D: {
+              boxWidth: 200,
+              boxHeight: 100,
+              boxDepth: 120,
+              viewControl: {
+                // Initial rotation for better view
+                beta: 15,
+                alpha: 25,
+                distance: 200,
+                rotateSensitivity: 1.5,
+                zoomSensitivity: 2,
+                panSensitivity: 1.5,
+                autoRotate: false
+              },
+              light: {
+                main: {
+                  intensity: 1.2,
+                  shadow: true,
+                },
+                ambient: {
+                  intensity: 0.3,
+                },
+              },
+              environment: '#000',
+            },
+            series: [
+              {
+                type: 'bar3D',
+                data: data,
+                shading: 'lambert',
                 label: {
                   show: false,
                 },
-              },
-              formatter: function (params: any[]) {
-                if (!params || params.length === 0) return '';
-
-                const date = params[0].axisValue;
-                const drawInfo = processedData.find(item => item.drawDate === date);
-                if (!drawInfo) return '';
-
-                let result = `Date: ${date}<br/>`;
-                result += `Draw #${drawInfo.drawNumber} - ${drawInfo.drawName}<br/>`;
-                result += `Minimum CRS: ${drawInfo.drawCRS}<br/>`;
-                result += `Total Invitations: ${drawInfo.drawSize.toLocaleString()}<br/><br/>`;
-
-                // Distribution data
-                let distributionTotal = 0;
-                params.forEach(param => {
-                  if (param.seriesName && param.value > 0 && param.seriesName.includes('-')) {
-                    result += `${param.marker}${param.seriesName}: ${param.value.toLocaleString()}<br/>`;
-                    distributionTotal += param.value;
-                  }
-                });
-
-                if (distributionTotal > 0) {
-                  result += `<br/>Total Candidates: ${distributionTotal.toLocaleString()}`;
-                }
-
-                return result;
-              },
-            },
-            legend: {
-              data: [...CRS_RANGES.map(range => range.name).reverse(), 'Total Invitations', 'Minimum CRS'],
-              type: 'scroll',
-              orient: 'vertical',
-              right: 10,
-              top: 50,
-              bottom: 20,
-              textStyle: {
-                fontSize: 12,
-              },
-            },
-            color: [...COLORS, '#FF0000', '#000000'],
-            grid: {
-              left: '8%',
-              right: '15%',
-              bottom: '3%',
-              containLabel: true,
-            },
-            xAxis: {
-              type: 'category',
-              boundaryGap: false,
-              data: processedData.map(item => item.drawDate),
-              axisLabel: {
-                rotate: 45,
-              },
-            },
-            yAxis: [
-              {
-                type: 'value',
-                name: 'Number of Candidates',
-                position: 'left',
-                nameLocation: 'middle',
-                nameGap: 50,
-                splitLine: {
-                  show: true,
-                  lineStyle: {
-                    type: 'dashed',
+                emphasis: {
+                  label: {
+                    show: false,
                   },
                 },
-                axisLabel: {
-                  formatter: '{value:,}',
-                },
-              },
-              {
-                type: 'value',
-                name: 'CRS Score',
-                position: 'right',
-                nameLocation: 'middle',
-                nameGap: 50,
-                min: 0,
-                max: 600,
-                interval: 100,
-                axisLine: {
-                  show: true,
-                  lineStyle: {
-                    color: '#000000',
-                  },
-                },
-                axisLabel: {
-                  formatter: '{value}',
-                },
-              },
-            ],
-            series: [
-              ...CRS_RANGES.map(range => ({
-                name: range.name,
-                type: 'line',
-                stack: 'Total',
-                showSymbol: false,
-                emphasis: {
-                  focus: 'series',
-                  areaStyle: {
-                    opacity: 1,
-                  },
-                },
-                areaStyle: {
-                  opacity: 0.8,
-                },
-                data: processedData.map(item => item.distributions[range.dataIndex]),
-              })),
-              {
-                name: 'Total Invitations',
-                type: 'line',
-                yAxisIndex: 0,
-                symbol: 'circle',
-                symbolSize: 6,
-                lineStyle: {
-                  width: 3,
-                },
-                emphasis: {
-                  focus: 'series',
-                },
-                data: processedData.map(item => item.drawSize),
-              },
-              {
-                name: 'Minimum CRS',
-                type: 'line',
-                yAxisIndex: 1,
-                symbol: 'circle',
-                symbolSize: 6,
-                lineStyle: {
-                  width: 3,
-                },
-                emphasis: {
-                  focus: 'series',
-                },
-                data: processedData.map(item => item.drawCRS),
               },
             ],
           }

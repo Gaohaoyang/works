@@ -80,6 +80,13 @@ const EChartsComponent = () => {
         // Process data for 3D visualization
         const data: [number, number, number][] = []
         const dates = filteredAndSortedRounds.map((item) => item.drawDate)
+        const drawInfos = filteredAndSortedRounds.map((item) => ({
+          date: item.drawDate,
+          number: item.drawNumber,
+          name: item.drawName,
+          size: parseInt(item.drawSize.replace(/,/g, '')),
+          crs: parseInt(item.drawCRS),
+        }))
 
         filteredAndSortedRounds.forEach((round, dateIndex) => {
           CRS_RANGES.forEach((range, rangeIndex) => {
@@ -105,10 +112,22 @@ const EChartsComponent = () => {
           const option = {
             tooltip: {
               formatter: (params: TooltipParams) => {
-                const date = dates[params.data[0]]
+                const dateIndex = params.data[0]
+                const drawInfo = drawInfos[dateIndex]
                 const range = CRS_RANGES[params.data[1]].name
                 const value = params.data[2]
-                return `Date: ${date}<br/>CRS Range: ${range}<br/>Candidates: ${value.toLocaleString()}`
+
+                return [
+                  `<strong>Draw #${drawInfo.number}</strong>`,
+                  `Date: ${drawInfo.date}`,
+                  `Program: ${drawInfo.name}`,
+                  `Minimum CRS: ${drawInfo.crs}`,
+                  `Total Invitations: ${drawInfo.size.toLocaleString()}`,
+                  ``,
+                  `<strong>Distribution</strong>`,
+                  `CRS Range: ${range}`,
+                  `Candidates: ${value.toLocaleString()}`,
+                ].join('<br/>')
               },
             },
             visualMap: {

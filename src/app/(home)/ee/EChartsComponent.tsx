@@ -139,7 +139,9 @@ const EChartsComponent = () => {
                   `</div>`,
                 ].join('<br/>')
               },
-              backgroundColor: isDark ? 'rgba(30, 30, 30, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+              backgroundColor: isDark
+                ? 'rgba(30, 30, 30, 0.9)'
+                : 'rgba(255, 255, 255, 0.9)',
               borderColor: isDark ? '#555' : '#ddd',
               textStyle: {
                 color: isDark ? '#ffffff' : '#000000',
@@ -148,33 +150,35 @@ const EChartsComponent = () => {
             visualMap: {
               max: maxValue,
               inRange: {
-                color: isDark ? [
-                  '#4a148c',  // Deep purple
-                  '#6a1b9a',
-                  '#7b1fa2',
-                  '#8e24aa',
-                  '#9c27b0',
-                  '#ba68c8',
-                  '#ce93d8',
-                  '#e1bee7',
-                  '#f3e5f5'
-                ] : [
-                  '#313695',
-                  '#4575b4',
-                  '#74add1',
-                  '#abd9e9',
-                  '#e0f3f8',
-                  '#ffffbf',
-                  '#fee090',
-                  '#fdae61',
-                  '#f46d43',
-                  '#d73027',
-                  '#a50026'
-                ]
+                color: isDark
+                  ? [
+                      '#4a148c', // Deep purple
+                      '#6a1b9a',
+                      '#7b1fa2',
+                      '#8e24aa',
+                      '#9c27b0',
+                      '#ba68c8',
+                      '#ce93d8',
+                      '#e1bee7',
+                      '#f3e5f5',
+                    ]
+                  : [
+                      '#313695',
+                      '#4575b4',
+                      '#74add1',
+                      '#abd9e9',
+                      '#e0f3f8',
+                      '#ffffbf',
+                      '#fee090',
+                      '#fdae61',
+                      '#f46d43',
+                      '#d73027',
+                      '#a50026',
+                    ],
               },
               textStyle: {
-                color: isDark ? '#ffffff' : '#000000'
-              }
+                color: isDark ? '#ffffff' : '#000000',
+              },
             },
             xAxis3D: {
               type: 'category',

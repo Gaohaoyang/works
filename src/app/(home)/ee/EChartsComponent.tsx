@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import * as echarts from 'echarts'
 import 'echarts-gl'
+import { useTheme } from 'next-themes'
 
 interface EEData {
   drawNumber: string
@@ -56,10 +57,18 @@ const CRS_RANGES = [
 const EChartsComponent = () => {
   const chartRef = useRef<HTMLDivElement>(null)
   const chartInstance = useRef<echarts.ECharts | null>(null)
+  const { theme } = useTheme()
 
   useEffect(() => {
-    console.log('EChartsComponent mounted')
-  }, [])
+    if (chartRef.current) {
+      // Dispose of the previous instance if it exists
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
+      }
+      // Create a new instance with current theme
+      chartInstance.current = echarts.init(chartRef.current)
+    }
+  }, [theme])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +80,8 @@ const EChartsComponent = () => {
 
         // Filter rounds starting from #228 and sort by date
         const filteredAndSortedRounds = [...jsonData.rounds]
-          .filter((round) => parseInt(round.drawNumber) >= 228)
+          // .filter((round) => parseInt(round.drawNumber) >= 214)
+          .filter((round) => parseInt(round.drawNumber) >= 260)
           .sort(
             (a, b) =>
               new Date(a.drawDate).getTime() - new Date(b.drawDate).getTime(),
@@ -100,16 +110,14 @@ const EChartsComponent = () => {
 
         const maxValue = Math.max(...data.map((item) => item[2]))
 
-        if (chartRef.current) {
-          if (!chartInstance.current) {
-            chartInstance.current = echarts.init(chartRef.current)
-          }
-
+        if (chartInstance.current) {
           interface TooltipParams {
             data: [number, number, number]
           }
 
+          const isDark = theme === 'dark'
           const option = {
+            backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
             tooltip: {
               formatter: (params: TooltipParams) => {
                 const dateIndex = params.data[0]
@@ -118,6 +126,7 @@ const EChartsComponent = () => {
                 const value = params.data[2]
 
                 return [
+                  `<div style="color: ${isDark ? '#ffffff' : '#000000'}">`,
                   `<strong>Draw #${drawInfo.number}</strong>`,
                   `Date: ${drawInfo.date}`,
                   `Program: ${drawInfo.name}`,
@@ -127,13 +136,29 @@ const EChartsComponent = () => {
                   `<strong>Distribution</strong>`,
                   `CRS Range: ${range}`,
                   `Candidates: ${value.toLocaleString()}`,
+                  `</div>`,
                 ].join('<br/>')
+              },
+              backgroundColor: isDark ? 'rgba(30, 30, 30, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+              borderColor: isDark ? '#555' : '#ddd',
+              textStyle: {
+                color: isDark ? '#ffffff' : '#000000',
               },
             },
             visualMap: {
               max: maxValue,
               inRange: {
-                color: [
+                color: isDark ? [
+                  '#4a148c',  // Deep purple
+                  '#6a1b9a',
+                  '#7b1fa2',
+                  '#8e24aa',
+                  '#9c27b0',
+                  '#ba68c8',
+                  '#ce93d8',
+                  '#e1bee7',
+                  '#f3e5f5'
+                ] : [
                   '#313695',
                   '#4575b4',
                   '#74add1',
@@ -144,9 +169,12 @@ const EChartsComponent = () => {
                   '#fdae61',
                   '#f46d43',
                   '#d73027',
-                  '#a50026',
-                ],
+                  '#a50026'
+                ]
               },
+              textStyle: {
+                color: isDark ? '#ffffff' : '#000000'
+              }
             },
             xAxis3D: {
               type: 'category',
@@ -155,6 +183,15 @@ const EChartsComponent = () => {
               axisLabel: {
                 rotate: 45,
                 interval: Math.floor(dates.length / 10),
+                color: isDark ? '#ffffff' : '#000000',
+              },
+              axisLine: {
+                lineStyle: {
+                  color: isDark ? '#ffffff' : '#000000',
+                },
+              },
+              nameTextStyle: {
+                color: isDark ? '#ffffff' : '#000000',
               },
             },
             yAxis3D: {
@@ -162,18 +199,39 @@ const EChartsComponent = () => {
               data: CRS_RANGES.map((range) => range.name),
               name: 'CRS Score Range',
               inverse: true,
+              axisLabel: {
+                color: isDark ? '#ffffff' : '#000000',
+              },
+              axisLine: {
+                lineStyle: {
+                  color: isDark ? '#ffffff' : '#000000',
+                },
+              },
+              nameTextStyle: {
+                color: isDark ? '#ffffff' : '#000000',
+              },
             },
             zAxis3D: {
               type: 'value',
               name: 'Number of Candidates',
               axisLabel: {
                 formatter: (value: number) => value.toLocaleString(),
+                color: isDark ? '#ffffff' : '#000000',
+              },
+              axisLine: {
+                lineStyle: {
+                  color: isDark ? '#ffffff' : '#000000',
+                },
+              },
+              nameTextStyle: {
+                color: isDark ? '#ffffff' : '#000000',
               },
             },
             grid3D: {
               boxWidth: 200,
               boxHeight: 100,
               boxDepth: 120,
+              environment: isDark ? '#1a1a1a' : '#fff',
               viewControl: {
                 // Initial rotation for better view
                 beta: 15,
@@ -184,14 +242,26 @@ const EChartsComponent = () => {
                 panSensitivity: 1.5,
                 autoRotate: false,
               },
+              axisLine: {
+                lineStyle: {
+                  color: isDark ? '#ffffff' : '#000000',
+                },
+              },
+              axisPointer: {
+                lineStyle: {
+                  color: isDark ? '#ffffff' : '#000000',
+                },
+              },
               light: {
                 main: {
-                  intensity: 1.2,
+                  intensity: isDark ? 1.5 : 1.2,
                   shadow: true,
                   shadowQuality: 'medium',
+                  alpha: 30,
+                  beta: 40,
                 },
                 ambient: {
-                  intensity: 0.3,
+                  intensity: isDark ? 0.6 : 0.3,
                 },
               },
             },
@@ -199,7 +269,7 @@ const EChartsComponent = () => {
               {
                 type: 'bar3D',
                 data: data,
-                shading: 'lambert',
+                shading: 'realistic',
                 label: {
                   show: false,
                 },
@@ -209,7 +279,9 @@ const EChartsComponent = () => {
                   },
                 },
                 itemStyle: {
-                  opacity: 0.9,
+                  opacity: isDark ? 1 : 0.9,
+                  metalness: isDark ? 0.5 : 0,
+                  roughness: isDark ? 0.4 : 0.6,
                 },
               },
             ],
@@ -222,7 +294,9 @@ const EChartsComponent = () => {
       }
     }
 
-    fetchData()
+    if (chartInstance.current) {
+      fetchData()
+    }
 
     const handleResize = () => {
       chartInstance.current?.resize()
@@ -232,7 +306,15 @@ const EChartsComponent = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      chartInstance.current?.dispose()
+    }
+  }, [theme])
+
+  // Cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.dispose()
+      }
     }
   }, [])
 

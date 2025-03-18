@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useRef } from 'react'
 import Link from 'next/link'
 import { motion, useInView } from 'motion/react'
@@ -8,7 +10,7 @@ const Ads = () => {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <div ref={ref} className="my-8 grid gap-4 md:grid-cols-2">
+    <div ref={ref} className="my-8 grid gap-4 md:grid-cols-3">
       {/* PTE Discount Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -59,7 +61,7 @@ const Ads = () => {
       >
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-            科学上网服务，无缝体验真实的互联网
+            科学上网无缝体验真实的互联网
           </h3>
           <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600 dark:bg-blue-900 dark:text-blue-300">
             广告 Ad
@@ -87,6 +89,28 @@ const Ads = () => {
           了解更多
         </Link>
       </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+        dangerouslySetInnerHTML={{
+          __html: `
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9139027259917346"
+     crossorigin="anonymous"></script>
+<!-- ee-page1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9139027259917346"
+     data-ad-slot="8971115804"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+          `,
+        }}
+      ></motion.div>
     </div>
   )
 }

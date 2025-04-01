@@ -2,26 +2,25 @@
 import React from 'react'
 import { LuSun, LuMoon } from 'react-icons/lu'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { Button } from '@heroui/react'
 import { FaGithub } from 'react-icons/fa6'
-
+import Link from 'next/link'
 const Navbar = () => {
   const { theme, setTheme } = useTheme()
-  const router = useRouter()
+  // const router = useRouter()
   return (
     <>
       <div className="fixed top-0 z-50 flex h-10 w-full items-center justify-center bg-white shadow shadow-slate-500/60 dark:bg-slate-900">
         <div className="container flex h-10 items-center justify-between">
           <div className="">
-            <Button
+            <Link
+              href="/"
               className="flex items-center gap-2 font-semibold"
-              variant="light"
-              onClick={() => router.push('/')}
+              // variant="light"
             >
-              {/* <LuHome className="text-lg" /> */}
               Home
-            </Button>
+            </Link>
           </div>
           <div>
             <Button

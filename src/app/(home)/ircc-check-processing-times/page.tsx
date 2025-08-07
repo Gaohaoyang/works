@@ -27,6 +27,5 @@ export default function ProcessingTimesPage() {
   )
 }
 
-
 // https://www.canada.ca/content/dam/ircc/documents/json/data-ptime-en.json
 // https://www.canada.ca/content/dam/ircc/documents/json/data-country-name-en.json
